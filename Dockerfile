@@ -1,14 +1,15 @@
+# Usa la imagen base de Odoo
 FROM odoo:18.0
 
-# Configura volúmenes
-VOLUME /var/lib/odoo
-VOLUME /mnt/extra-addons
-VOLUME /var/log/odoo
+# Copia la configuración personalizada de Odoo
+COPY ./config/odoo.conf /etc/odoo/odoo.conf
 
-# Copia tus configuraciones personalizadas
-COPY ./config /etc/odoo
-COPY ./addons /mnt/extra-addons
-COPY ./logs /var/log/odoo
+# Mover complementos y registros a subdirectorios dentro de /var/lib/odoo
+COPY ./addons /var/lib/odoo/extra-addons
+RUN mkdir -p /var/lib/odoo/logs
 
-# Comando para iniciar Odoo
-CMD ["odoo", "-d", "odoo", "--db_user=${POSTGRES_USER}", "--db_password=${POSTGRES_PASSWORD}", "--db_host=${POSTGRES_HOST}"]
+# Exponer el puerto 8069
+EXPOSE 8069
+
+# Comando para iniciar Odoo con la configuración personalizada
+CMD ["odoo"]
