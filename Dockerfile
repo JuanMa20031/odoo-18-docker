@@ -5,7 +5,7 @@ FROM odoo:18.0
 COPY ./config/odoo.conf /etc/odoo/odoo.conf
 
 # Mover complementos y registros a subdirectorios dentro de /var/lib/odoo
-COPY ./addons /var/lib/odoo/extra-addons
+COPY ./addons /var/lib/odoo/addons
 RUN mkdir -p /var/lib/odoo/logs
 
 # Exponer el puerto 8069
